@@ -8,6 +8,18 @@ venv/
 .env.development.local
 .env.test.local
 
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+*.pywz
+*.pyzw
+*.pyzwz
+*.pyzwzw
+*.pyzwzwz
+
 # dependencies
 /node_modules
 /.pnp
