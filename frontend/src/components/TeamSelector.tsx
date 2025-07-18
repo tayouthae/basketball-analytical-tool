@@ -36,7 +36,8 @@ export default function TeamSelector({ value, onChange, placeholder, label }: Te
   const fetchTeams = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:8000/api/analytics/teams');
+      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+      const response = await fetch(`${API_BASE_URL}/api/analytics/teams`);
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
