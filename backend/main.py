@@ -13,16 +13,20 @@ app = FastAPI(
 # Enable CORS for frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000",
+                   "https://basketball-analytical-tool.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # Include routers
-app.include_router(tournament_router, prefix="/api/tournament", tags=["tournament"])
-app.include_router(analytics_router, prefix="/api/analytics", tags=["analytics"])
+app.include_router(tournament_router,
+                   prefix="/api/tournament", tags=["tournament"])
+app.include_router(
+    analytics_router, prefix="/api/analytics", tags=["analytics"])
 app.include_router(upsets_router, prefix="/api/upsets", tags=["upsets"])
+
 
 @app.get("/")
 async def root():
@@ -32,10 +36,11 @@ async def root():
         "version": "1.0.0",
         "endpoints": {
             "tournament": "/api/tournament/*",
-            "analytics": "/api/analytics/*", 
+            "analytics": "/api/analytics/*",
             "upsets": "/api/upsets/*"
         }
     }
+
 
 @app.get("/health")
 async def health_check():
