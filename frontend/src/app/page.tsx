@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { testConnection } from '@/lib/api';
 import TournamentSearch from '@/components/TournamentSearch';
 import BubbleTeams from '@/components/BubbleTeams';
+import UpsetAlerts from '@/components/UpsetAlerts';
 
 export default function Home() {
   const [apiStatus, setApiStatus] = useState<'loading' | 'connected' | 'error'>('loading');
@@ -44,14 +45,20 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">
           🏀 Basketball Analytics Dashboard
         </h1>
         
-        <div className="grid lg:grid-cols-2 gap-8">
-          <TournamentSearch />
-          <BubbleTeams />
+        <div className="space-y-8">
+          {/* Top Row */}
+          <div className="grid lg:grid-cols-2 gap-8">
+            <TournamentSearch />
+            <BubbleTeams />
+          </div>
+          
+          {/* Bottom Row */}
+          <UpsetAlerts />
         </div>
       </div>
     </main>
