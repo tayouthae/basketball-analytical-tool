@@ -21,6 +21,8 @@ export default function Home() {
     checkConnection();
   }, []);
 
+
+
   if (apiStatus === 'loading') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
@@ -44,23 +46,30 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+    <div className="p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">
-          🏀 Basketball Analytics Dashboard
-        </h1>
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Dashboard Overview
+          </h1>
+          <p className="text-gray-600">
+            Your comprehensive basketball analytics hub with live insights and predictions
+          </p>
+        </div>
+
+
         
+
+
         <div className="space-y-8">
-          {/* Top Row */}
           <div className="grid lg:grid-cols-2 gap-8">
             <TournamentSearch />
             <BubbleTeams />
           </div>
           
-          {/* Bottom Row */}
           <UpsetAlerts />
         </div>
       </div>
-    </main>
+    </div>
   );
 }
