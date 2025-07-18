@@ -11,7 +11,7 @@ export default function Navigation() {
   const navItems = [
     { href: '/', label: 'Dashboard', icon: '📊' },
     { href: '/team-analysis', label: 'Team Analysis', icon: '🔍' },
-    { href: '/march-madness', label: 'Tournament Analysis', icon: '🏆' },
+    { href: '/tournament-analysis', label: 'Tournament Analysis', icon: '🏆' },
     { href: '/tournament-archive', label: 'Archive', icon: '📚' },
   ];
 

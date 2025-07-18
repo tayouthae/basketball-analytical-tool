@@ -73,7 +73,7 @@ export default function UpsetAlerts() {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">
-          ⚡ March Madness Alerts
+          ⚡ Tournament Analysis Alerts
         </h2>
         
         <div className="flex items-center space-x-2">

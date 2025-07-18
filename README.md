@@ -1,6 +1,6 @@
 # 🏀 Basketball Analytics Tool
 
-### March Madness Prediction & Team Analysis System
+### Tournament Analysis Prediction & Team Analysis System
 
 A comprehensive basketball analytics platform that leverages machine learning to predict tournament outcomes, identify upset opportunities, and provide actionable insights for college basketball programs.
 
@@ -11,7 +11,7 @@ _Screenshot will be added in next step_
 
 ### Tournament Qualification Predictor
 
-- **95.2% AUC accuracy** in predicting which teams make March Madness
+- **95.2% AUC accuracy** in predicting which teams make Tournament Analysis
 - Early season tournament projections for strategic planning
 - Identifies undervalued teams and recruiting targets
 
@@ -58,11 +58,11 @@ _Screenshot will be added in next step_
 
 ## 📊 Model Performance
 
-| Model                    | Accuracy | AUC Score | Business Use Case         |
-| ------------------------ | -------- | --------- | ------------------------- |
-| Tournament Qualification | 92.1%    | 95.2%     | Early season projections  |
-| Upset Prediction         | 90.4%    | 90.4%     | March Madness strategy    |
-| Deep Run Prediction      | 89.7%    | 82.3%     | Cinderella identification |
+| Model                    | Accuracy | AUC Score | Business Use Case            |
+| ------------------------ | -------- | --------- | ---------------------------- |
+| Tournament Qualification | 92.1%    | 95.2%     | Early season projections     |
+| Upset Prediction         | 90.4%    | 90.4%     | Tournament Analysis strategy |
+| Deep Run Prediction      | 89.7%    | 82.3%     | Cinderella identification    |
 
 ## 🚀 Quick Start
 
