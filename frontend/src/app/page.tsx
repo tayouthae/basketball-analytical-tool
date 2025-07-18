@@ -2,86 +2,64 @@
 
 import { useState, useEffect } from 'react';
 import { testConnection } from '@/lib/api';
+import TournamentSearch from '@/components/TournamentSearch';
+import BubbleTeams from '@/components/BubbleTeams';
+import UpsetAlerts from '@/components/UpsetAlerts';
 
 export default function Home() {
   const [apiStatus, setApiStatus] = useState<'loading' | 'connected' | 'error'>('loading');
-  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const checkConnection = async () => {
       try {
-        const result = await testConnection();
-        console.log('API Response:', result);
+        await testConnection();
         setApiStatus('connected');
       } catch (error) {
-        console.error('Connection error:', error);
         setApiStatus('error');
-        setErrorMessage('Could not connect to FastAPI backend. Make sure it\'s running on http://localhost:8000');
       }
     };
-
     checkConnection();
   }, []);
 
+  if (apiStatus === 'loading') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p>Connecting to API...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (apiStatus === 'error') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center bg-white p-8 rounded-lg shadow-lg">
+          <h1 className="text-2xl font-bold text-red-600 mb-4">⚠️ Connection Error</h1>
+          <p className="text-gray-600">Make sure your FastAPI backend is running on http://localhost:8000</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">
           🏀 Basketball Analytics Dashboard
         </h1>
         
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
-          <h2 className="text-2xl font-semibold mb-4">API Connection Status</h2>
+        <div className="space-y-8">
+          {/* Top Row */}
+          <div className="grid lg:grid-cols-2 gap-8">
+            <TournamentSearch />
+            <BubbleTeams />
+          </div>
           
-          <div className="flex items-center space-x-3">
-            {apiStatus === 'loading' && (
-              <>
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-                <span>Testing connection...</span>
-              </>
-            )}
-            
-            {apiStatus === 'connected' && (
-              <>
-                <div className="h-6 w-6 bg-green-500 rounded-full flex items-center justify-center">
-                  <span className="text-white text-sm">✓</span>
-                </div>
-                <span className="text-green-600 font-semibold">Connected to FastAPI Backend!</span>
-              </>
-            )}
-            
-            {apiStatus === 'error' && (
-              <>
-                <div className="h-6 w-6 bg-red-500 rounded-full flex items-center justify-center">
-                  <span className="text-white text-sm">✗</span>
-                </div>
-                <div>
-                  <span className="text-red-600 font-semibold">Connection Failed</span>
-                  <p className="text-red-500 text-sm mt-1">{errorMessage}</p>
-                </div>
-              </>
-            )}
-          </div>
+          {/* Bottom Row */}
+          <UpsetAlerts />
         </div>
-
-        {apiStatus === 'connected' && (
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold mb-2">Tournament Predictions</h3>
-              <p className="text-gray-600">Predict which teams will make March Madness</p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold mb-2">Upset Alerts</h3>
-              <p className="text-gray-600">Identify potential bracket busters</p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold mb-2">Team Analytics</h3>
-              <p className="text-gray-600">Deep dive into team performance</p>
-            </div>
-          </div>
-        )}
       </div>
     </main>
   );
