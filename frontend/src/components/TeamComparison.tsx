@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import { api } from '@/lib/api';
+import TeamSelector from './TeamSelector';
 
 interface TeamComparison {
   team1: string;
@@ -51,11 +52,7 @@ export default function TeamComparison() {
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      compareTeams();
-    }
-  };
+
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6">
@@ -65,33 +62,19 @@ export default function TeamComparison() {
 
       {/* Input Form */}
       <div className="grid md:grid-cols-3 gap-4 mb-6">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Team 1
-          </label>
-          <input
-            type="text"
-            value={team1}
-            onChange={(e) => setTeam1(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Enter first team (e.g., Duke)"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+        <TeamSelector
+          value={team1}
+          onChange={setTeam1}
+          placeholder="Search and select first team..."
+          label="Team 1"
+        />
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Team 2
-          </label>
-          <input
-            type="text"
-            value={team2}
-            onChange={(e) => setTeam2(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Enter second team (e.g., Kansas)"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+        <TeamSelector
+          value={team2}
+          onChange={setTeam2}
+          placeholder="Search and select second team..."
+          label="Team 2"
+        />
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">

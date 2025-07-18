@@ -4,12 +4,20 @@
 import { useState, useEffect } from 'react';
 import { api } from '@/lib/api';
 import { BubbleTeam } from '@/types/basketball';
+import EfficiencyChart from './charts/EfficiencyChart';
 
-export default function BubbleTeams() {
+interface BubbleTeamsProps {
+  year?: number;
+  showYearSelector?: boolean;
+}
+
+export default function BubbleTeams({ year: propYear, showYearSelector = true }: BubbleTeamsProps) {
   const [bubbleTeams, setBubbleTeams] = useState<BubbleTeam[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [year, setYear] = useState(2024);
+  const [internalYear, setInternalYear] = useState(2024);
+  
+  const year = propYear || internalYear;
 
   const fetchBubbleTeams = async () => {
     setLoading(true);
@@ -49,20 +57,22 @@ export default function BubbleTeams() {
           🎭 Tournament Bubble Teams
         </h2>
         
-        <div className="flex items-center space-x-2">
-          <label className="text-sm font-medium text-gray-700">Year:</label>
-          <select
-            value={year}
-            onChange={(e) => setYear(Number(e.target.value))}
-            className="px-3 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
-          >
-            <option value={2024}>2024</option>
-            <option value={2023}>2023</option>
-            <option value={2022}>2022</option>
-            <option value={2021}>2021</option>
-            <option value={2019}>2019</option>
-          </select>
-        </div>
+        {showYearSelector && (
+          <div className="flex items-center space-x-2">
+            <label className="text-sm font-medium text-gray-700">Year:</label>
+            <select
+              value={year}
+              onChange={(e) => setInternalYear(Number(e.target.value))}
+              className="px-3 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+            >
+              <option value={2024}>2024</option>
+              <option value={2023}>2023</option>
+              <option value={2022}>2022</option>
+              <option value={2021}>2021</option>
+              <option value={2019}>2019</option>
+            </select>
+          </div>
+        )}
       </div>
 
       <p className="text-gray-600 mb-4">
@@ -89,8 +99,11 @@ export default function BubbleTeams() {
       )}
 
       {!loading && !error && bubbleTeams.length > 0 && (
-        <div className="space-y-3">
-          {bubbleTeams.map((team, index) => (
+        <div className="space-y-6">
+          <EfficiencyChart data={bubbleTeams} />
+          
+          <div className="space-y-3">
+            {bubbleTeams.map((team, index) => (
             <div
               key={index}
               className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
@@ -145,7 +158,8 @@ export default function BubbleTeams() {
                 </div>
               </div>
             </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
 

@@ -34,3 +34,11 @@ export interface BubbleTeam {
     potential_level: string;
     strengths: string[];
   }
+
+  export interface ConferenceStats {
+    conference: string;
+    avg_efficiency: number;
+    tournament_rate: number;
+    top_team: string;
+    teams_count: number;
+  }

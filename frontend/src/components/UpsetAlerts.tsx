@@ -2,16 +2,22 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { api } from '@/lib/api';
 import { UpsetAlert, CinderellaCandidate } from '@/types/basketball';
+import UpsetRiskChart from './charts/UpsetRiskChart';
 
 export default function UpsetAlerts() {
+  const searchParams = useSearchParams();
   const [upsetAlerts, setUpsetAlerts] = useState<UpsetAlert[]>([]);
   const [cinderellas, setCinderellas] = useState<CinderellaCandidate[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [year, setYear] = useState(2024);
-  const [activeTab, setActiveTab] = useState<'upsets' | 'cinderella'>('upsets');
+  
+  // Check URL params to determine initial tab
+  const initialTab = searchParams.get('tab') === 'cinderella' ? 'cinderella' : 'upsets';
+  const [activeTab, setActiveTab] = useState<'upsets' | 'cinderella'>(initialTab);
 
   const fetchUpsetData = async () => {
     setLoading(true);
@@ -36,6 +42,16 @@ export default function UpsetAlerts() {
   useEffect(() => {
     fetchUpsetData();
   }, [year]);
+
+  // Update active tab when URL params change
+  useEffect(() => {
+    const tabParam = searchParams.get('tab');
+    if (tabParam === 'cinderella') {
+      setActiveTab('cinderella');
+    } else if (tabParam === 'upsets') {
+      setActiveTab('upsets');
+    }
+  }, [searchParams]);
 
   const getRiskColor = (riskLevel: string) => {
     switch (riskLevel) {
