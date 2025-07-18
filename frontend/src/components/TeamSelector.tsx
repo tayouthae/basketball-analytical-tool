@@ -143,7 +143,7 @@ export default function TeamSelector({ value, onChange, placeholder, label }: Te
             </div>
           ) : (
             <div className="p-4 text-center text-gray-500">
-              No teams found matching "{searchTerm}"
+              No teams found matching &quot;{searchTerm}&quot;
             </div>
           )}
         </div>

@@ -13,7 +13,7 @@ export default function Home() {
       try {
         await testConnection();
         setApiStatus('connected');
-      } catch (error) {
+      } catch {
         setApiStatus('error');
       }
     };

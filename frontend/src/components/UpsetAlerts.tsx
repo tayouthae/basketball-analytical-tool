@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { api } from '@/lib/api';
 import { UpsetAlert, CinderellaCandidate } from '@/types/basketball';
-import UpsetRiskChart from './charts/UpsetRiskChart';
 
 export default function UpsetAlerts() {
   const searchParams = useSearchParams();
@@ -19,7 +18,7 @@ export default function UpsetAlerts() {
   const initialTab = searchParams.get('tab') === 'cinderella' ? 'cinderella' : 'upsets';
   const [activeTab, setActiveTab] = useState<'upsets' | 'cinderella'>(initialTab);
 
-  const fetchUpsetData = async () => {
+  const fetchUpsetData = useCallback(async () => {
     setLoading(true);
     setError('');
     
@@ -31,17 +30,17 @@ export default function UpsetAlerts() {
       
       setUpsetAlerts(upsetResponse.data);
       setCinderellas(cinderellaResponse.data);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError('Error fetching upset data. Please try again.');
       console.error('Error:', err);
     } finally {
       setLoading(false);
     }
-  };
+  }, [year]);
 
   useEffect(() => {
     fetchUpsetData();
-  }, [year]);
+  }, [year, fetchUpsetData]);
 
   // Update active tab when URL params change
   useEffect(() => {

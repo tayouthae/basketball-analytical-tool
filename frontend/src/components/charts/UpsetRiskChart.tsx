@@ -47,7 +47,7 @@ export default function UpsetRiskChart({ data }: UpsetRiskChartProps) {
     );
   }
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<{ payload: { name: string; seed: number; risk: number; efficiency: number; riskLevel: string; reasons: string[] } }> }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (

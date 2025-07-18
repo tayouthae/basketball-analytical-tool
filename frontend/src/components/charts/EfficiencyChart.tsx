@@ -24,7 +24,7 @@ export default function EfficiencyChart({ data }: EfficiencyChartProps) {
     record: team.record
   }));
 
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<{ payload: { name: string; efficiency: number; probability: number; conference: string; record: string } }> }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (

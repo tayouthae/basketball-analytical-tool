@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { api } from '@/lib/api';
 import ConferenceChart from './charts/ConferenceChart';
 
@@ -18,24 +18,24 @@ export default function ConferenceAnalysis() {
   const [error, setError] = useState('');
   const [year, setYear] = useState(2024);
 
-  const fetchConferences = async () => {
+  const fetchConferences = useCallback(async () => {
     setLoading(true);
     setError('');
     
     try {
       const response = await api.get(`/api/analytics/conferences?year=${year}`);
       setConferences(response.data);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError('Error fetching conference data. Please try again.');
       console.error('Error:', err);
     } finally {
       setLoading(false);
     }
-  };
+  }, [year]);
 
   useEffect(() => {
     fetchConferences();
-  }, [year]);
+  }, [year, fetchConferences]);
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6">

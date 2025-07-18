@@ -29,7 +29,7 @@ export default function Navigation() {
                 Basketball Analytics
               </h1>
               <p className="text-xs text-gray-500 font-medium">
-                Men's Basketball
+                Men&apos;s Basketball
               </p>
             </div>
           </Link>

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { api } from '@/lib/api';
 import { BubbleTeam } from '@/types/basketball';
 import EfficiencyChart from './charts/EfficiencyChart';
@@ -19,24 +19,24 @@ export default function BubbleTeams({ year: propYear, showYearSelector = true }:
   
   const year = propYear || internalYear;
 
-  const fetchBubbleTeams = async () => {
+  const fetchBubbleTeams = useCallback(async () => {
     setLoading(true);
     setError('');
     
     try {
       const response = await api.get(`/api/tournament/bubble-teams?year=${year}`);
       setBubbleTeams(response.data);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError('Error fetching bubble teams. Please try again.');
       console.error('Error:', err);
     } finally {
       setLoading(false);
     }
-  };
+  }, [year]);
 
   useEffect(() => {
     fetchBubbleTeams();
-  }, [year]);
+  }, [year, fetchBubbleTeams]);
 
   const getProbabilityColor = (probability: number) => {
     if (probability >= 0.6) return 'text-green-600 bg-green-50';

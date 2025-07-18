@@ -39,9 +39,14 @@ export default function CompactTeamComparison() {
     try {
       const response = await api.get(`/api/analytics/compare/${team1}/${team2}?year=${year}`);
       setComparison(response.data);
-    } catch (err: any) {
-      if (err.response?.status === 404) {
-        setError('One or both teams not found');
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'response' in err) {
+        const errorWithResponse = err as { response?: { status?: number } };
+        if (errorWithResponse.response?.status === 404) {
+          setError('One or both teams not found');
+        } else {
+          setError('Error comparing teams');
+        }
       } else {
         setError('Error comparing teams');
       }
