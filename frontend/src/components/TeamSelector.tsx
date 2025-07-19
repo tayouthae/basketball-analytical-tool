@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { api } from '@/lib/api';
 
 interface TeamSelectorProps {
   value: string;
@@ -36,15 +37,8 @@ export default function TeamSelector({ value, onChange, placeholder, label }: Te
   const fetchTeams = async () => {
     setLoading(true);
     try {
-      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-      const response = await fetch(`${API_BASE_URL}/api/analytics/teams`);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      const sortedTeams = data.teams.sort();
+      const response = await api.get('/api/analytics/teams');
+      const sortedTeams = response.data.teams.sort();
       setTeams(sortedTeams);
     } catch (error) {
       console.error('Error fetching teams:', error);

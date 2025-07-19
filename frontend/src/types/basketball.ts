@@ -42,3 +42,38 @@ export interface BubbleTeam {
     top_team: string;
     teams_count: number;
   }
+
+  export interface TopTeam {
+    team: string;
+    conference: string;
+    efficiency: number;
+    wins: number;
+    record: string;
+    tournament_readiness: number;
+  }
+
+  export interface TopTeamsResponse {
+    top_teams: TopTeam[];
+  }
+
+  export interface TeamProfile {
+    team: string;
+    conference: string;
+    year: number;
+    record: string;
+    efficiency_metrics: {
+      net_efficiency: number;
+      offensive_efficiency: number;
+      defensive_efficiency: number;
+      pace: number;
+    };
+    percentiles: {
+      [key: string]: number;
+    };
+    strengths: string[];
+    weaknesses: string[];
+    tournament_outlook: {
+      probability: number;
+      readiness_score: number;
+    };
+  }

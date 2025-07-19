@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { testConnection } from '@/lib/api';
 import TournamentSearch from '@/components/TournamentSearch';
 import CompactTeamComparison from '@/components/CompactTeamComparison';
+import TopTeams from '@/components/TopTeams';
 
 export default function Home() {
   const [apiStatus, setApiStatus] = useState<'loading' | 'connected' | 'error'>('loading');
@@ -198,6 +199,11 @@ export default function Home() {
                </a>
              </div>
           </div>
+        </div>
+
+        {/* Top Teams Section */}
+        <div className="mb-12">
+          <TopTeams limit={10} />
         </div>
 
         {/* Quick Navigation */}

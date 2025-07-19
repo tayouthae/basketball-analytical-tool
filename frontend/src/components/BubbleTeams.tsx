@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { api } from '@/lib/api';
 import { BubbleTeam } from '@/types/basketball';
 import EfficiencyChart from './charts/EfficiencyChart';
+import Link from 'next/link';
 
 interface BubbleTeamsProps {
   year?: number;
@@ -110,9 +111,12 @@ export default function BubbleTeams({ year: propYear, showYearSelector = true }:
             >
               <div className="flex items-center justify-between mb-3">
                 <div>
-                  <h3 className="font-semibold text-lg text-gray-800">
+                  <Link 
+                    href={`/team-profile?team=${encodeURIComponent(team.team)}&year=${year}`}
+                    className="font-semibold text-lg text-gray-800 hover:text-blue-600 transition-colors"
+                  >
                     {team.team}
-                  </h3>
+                  </Link>
                   <p className="text-sm text-gray-600">
                     {team.conference} • {team.record} ({team.wins} wins)
                   </p>
@@ -143,19 +147,27 @@ export default function BubbleTeams({ year: propYear, showYearSelector = true }:
               </div>
 
               {/* Quick Stats */}
-              <div className="grid grid-cols-3 gap-4 text-center text-sm">
-                <div>
-                  <div className="font-semibold text-gray-800">{team.efficiency}</div>
-                  <div className="text-gray-500">Net Efficiency</div>
+              <div className="flex items-center justify-between">
+                <div className="grid grid-cols-3 gap-4 text-center text-sm flex-1">
+                  <div>
+                    <div className="font-semibold text-gray-800">{team.efficiency}</div>
+                    <div className="text-gray-500">Net Efficiency</div>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-gray-800">{team.wins}</div>
+                    <div className="text-gray-500">Wins</div>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-gray-800">{team.conference}</div>
+                    <div className="text-gray-500">Conference</div>
+                  </div>
                 </div>
-                <div>
-                  <div className="font-semibold text-gray-800">{team.wins}</div>
-                  <div className="text-gray-500">Wins</div>
-                </div>
-                <div>
-                  <div className="font-semibold text-gray-800">{team.conference}</div>
-                  <div className="text-gray-500">Conference</div>
-                </div>
+                <Link 
+                  href={`/team-profile?team=${encodeURIComponent(team.team)}&year=${year}`}
+                  className="ml-4 text-blue-600 hover:text-blue-800 text-sm font-medium"
+                >
+                  View Profile →
+                </Link>
               </div>
             </div>
             ))}

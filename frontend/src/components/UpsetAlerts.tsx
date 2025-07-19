@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { api } from '@/lib/api';
 import { UpsetAlert, CinderellaCandidate } from '@/types/basketball';
+import Link from 'next/link';
 
 export default function UpsetAlerts() {
   const searchParams = useSearchParams();
@@ -149,14 +150,19 @@ export default function UpsetAlerts() {
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div>
-                      <h3 className="font-semibold text-lg text-gray-800">
-                        {alert.team}
+                      <div className="flex items-center space-x-2">
+                        <Link 
+                          href={`/team-profile?team=${encodeURIComponent(alert.team)}&year=${year}`}
+                          className="font-semibold text-lg text-gray-800 hover:text-blue-600 transition-colors"
+                        >
+                          {alert.team}
+                        </Link>
                         {alert.seed && (
-                          <span className="ml-2 text-sm bg-gray-100 px-2 py-1 rounded">
+                          <span className="text-sm bg-gray-100 px-2 py-1 rounded">
                             #{alert.seed} seed
                           </span>
                         )}
-                      </h3>
+                      </div>
                       <p className="text-sm text-gray-600">
                         Efficiency: {alert.efficiency}
                       </p>
@@ -183,18 +189,26 @@ export default function UpsetAlerts() {
                   </div>
 
                   {/* Risk Reasons */}
-                  <div>
-                    <div className="text-sm font-medium text-gray-700 mb-2">Risk Factors:</div>
-                    <div className="flex flex-wrap gap-2">
-                      {alert.reasons.map((reason, idx) => (
-                        <span
-                          key={idx}
-                          className="bg-red-50 text-red-700 px-2 py-1 rounded text-sm border border-red-200"
-                        >
-                          {reason}
-                        </span>
-                      ))}
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="text-sm font-medium text-gray-700 mb-2">Risk Factors:</div>
+                      <div className="flex flex-wrap gap-2">
+                        {alert.reasons.map((reason, idx) => (
+                          <span
+                            key={idx}
+                            className="bg-red-50 text-red-700 px-2 py-1 rounded text-sm border border-red-200"
+                          >
+                            {reason}
+                          </span>
+                        ))}
+                      </div>
                     </div>
+                    <Link 
+                      href={`/team-profile?team=${encodeURIComponent(alert.team)}&year=${year}`}
+                      className="ml-4 text-blue-600 hover:text-blue-800 text-sm font-medium"
+                    >
+                      View Profile →
+                    </Link>
                   </div>
                 </div>
               ))}
@@ -223,14 +237,19 @@ export default function UpsetAlerts() {
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div>
-                      <h3 className="font-semibold text-lg text-gray-800">
-                        {candidate.team}
+                      <div className="flex items-center space-x-2">
+                        <Link 
+                          href={`/team-profile?team=${encodeURIComponent(candidate.team)}&year=${year}`}
+                          className="font-semibold text-lg text-gray-800 hover:text-blue-600 transition-colors"
+                        >
+                          {candidate.team}
+                        </Link>
                         {candidate.seed && (
-                          <span className="ml-2 text-sm bg-gray-100 px-2 py-1 rounded">
+                          <span className="text-sm bg-gray-100 px-2 py-1 rounded">
                             #{candidate.seed} seed
                           </span>
                         )}
-                      </h3>
+                      </div>
                       <p className="text-sm text-gray-600">
                         Efficiency: {candidate.efficiency}
                       </p>
@@ -257,18 +276,26 @@ export default function UpsetAlerts() {
                   </div>
 
                   {/* Strengths */}
-                  <div>
-                    <div className="text-sm font-medium text-gray-700 mb-2">Key Strengths:</div>
-                    <div className="flex flex-wrap gap-2">
-                      {candidate.strengths.map((strength, idx) => (
-                        <span
-                          key={idx}
-                          className="bg-purple-50 text-purple-700 px-2 py-1 rounded text-sm border border-purple-200"
-                        >
-                          {strength}
-                        </span>
-                      ))}
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="text-sm font-medium text-gray-700 mb-2">Key Strengths:</div>
+                      <div className="flex flex-wrap gap-2">
+                        {candidate.strengths.map((strength, idx) => (
+                          <span
+                            key={idx}
+                            className="bg-purple-50 text-purple-700 px-2 py-1 rounded text-sm border border-purple-200"
+                          >
+                            {strength}
+                          </span>
+                        ))}
+                      </div>
                     </div>
+                    <Link 
+                      href={`/team-profile?team=${encodeURIComponent(candidate.team)}&year=${year}`}
+                      className="ml-4 text-blue-600 hover:text-blue-800 text-sm font-medium"
+                    >
+                      View Profile →
+                    </Link>
                   </div>
                 </div>
               ))}

@@ -13,6 +13,7 @@ export default function Navigation() {
   const navItems = [
     { href: '/', label: 'Dashboard', icon: '📊' },
     { href: '/team-analysis', label: 'Team Analysis', icon: '🔍' },
+    { href: '/team-analysis-individual', label: 'Individual Team', icon: '🏀' },
     { href: '/march-madness', label: 'March Madness', icon: '🏆' },
     { href: '/tournament-archive', label: 'Archive', icon: '📚' },
   ];
