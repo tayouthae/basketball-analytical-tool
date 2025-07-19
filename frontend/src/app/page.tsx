@@ -1,32 +1,77 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { testConnection } from '@/lib/api';
 import TournamentSearch from '@/components/TournamentSearch';
 import CompactTeamComparison from '@/components/CompactTeamComparison';
 import TopTeams from '@/components/TopTeams';
+import { useApiStatus } from '@/lib/api-status-context';
 
 export default function Home() {
-  const [apiStatus, setApiStatus] = useState<'loading' | 'connected' | 'error'>('loading');
+  const { apiStatus, loadingPhase, startTime, retryConnection } = useApiStatus();
 
-  useEffect(() => {
-    const checkConnection = async () => {
-      try {
-        await testConnection();
-        setApiStatus('connected');
-      } catch {
-        setApiStatus('error');
-      }
-    };
-    checkConnection();
-  }, []);
+  const isApiReady = apiStatus === 'connected';
+
+  const getLoadingMessage = () => {
+    switch (loadingPhase) {
+      case 1: return "🏀 Loading Basketball Analytics...";
+      case 2: return "🔧 Starting up servers (first visit takes ~30 seconds)";
+      case 3: return "⏳ Almost ready... servers are warming up";
+      case 4: return "Still connecting... please wait a moment longer";
+      default: return "🏀 Loading Basketball Analytics...";
+    }
+  };
+
+  const ConditionalLink = ({ href, className, children, disabled = false }: {
+    href: string;
+    className: string;
+    children: React.ReactNode;
+    disabled?: boolean;
+  }) => {
+    if (disabled) {
+      return (
+        <div 
+          className={`${className} cursor-not-allowed opacity-60 relative`}
+          title="Available when API is connected"
+        >
+          {children}
+          <div className="absolute inset-0 bg-gray-200/50 rounded-xl flex items-center justify-center">
+            <span className="text-gray-600 font-medium">🔒 API Loading</span>
+          </div>
+        </div>
+      );
+    }
+    return <a href={href} className={className}>{children}</a>;
+  };
 
   if (apiStatus === 'loading') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
-        <div className="text-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center p-4">
+        <div className="text-center max-w-md">
           <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-200 border-t-blue-600 mx-auto mb-6"></div>
-          <p className="text-slate-600 text-lg">Loading Analytics Platform...</p>
+          <p className="text-slate-600 text-lg mb-4">{getLoadingMessage()}</p>
+          
+          {loadingPhase >= 2 && (
+            <div className="bg-white/70 backdrop-blur-sm rounded-lg p-4 mb-4 border border-blue-100">
+              <p className="text-sm text-slate-500">
+                {loadingPhase === 2 && "This is normal for the first visit - our servers need a moment to start up."}
+                {loadingPhase === 3 && "Just a few more seconds... servers are almost ready."}
+                {loadingPhase === 4 && "Taking longer than expected, but still working on it."}
+              </p>
+            </div>
+          )}
+
+          {loadingPhase >= 4 && (
+            <div className="space-y-3">
+              <button
+                onClick={retryConnection}
+                className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+              >
+                🔄 Retry Connection
+              </button>
+              <p className="text-xs text-slate-400">
+                Elapsed time: {Math.floor((Date.now() - startTime) / 1000)}s
+              </p>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -41,9 +86,15 @@ export default function Home() {
           </div>
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Connection Error</h1>
           <p className="text-slate-600 mb-4">Unable to connect to analytics backend</p>
-          <p className="text-sm text-slate-500 bg-slate-50 p-3 rounded-lg">
-            Ensure FastAPI server is running on port 8000
+          <p className="text-sm text-slate-500 bg-slate-50 p-3 rounded-lg mb-6">
+            Server may be starting up or temporarily unavailable
           </p>
+          <button
+            onClick={retryConnection}
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+          >
+            🔄 Try Again
+          </button>
         </div>
       </div>
     );
@@ -128,7 +179,7 @@ export default function Home() {
                 </div>
                 <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-200">
                   <span className="text-slate-700 font-medium">Deep Run Prediction</span>
-                  <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">Ensemble</span>
+                  <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">Random Forest</span>
                 </div>
                 <div className="pt-4 border-t border-slate-200">
                   <div className="flex items-center justify-between">
@@ -154,11 +205,13 @@ export default function Home() {
               </p>
             </div>
             <div className="p-6">
-              <a href="/team-analysis" 
-                 className="inline-flex items-center justify-center w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl">
+              <ConditionalLink 
+                href="/team-analysis"
+                disabled={!isApiReady}
+                className="inline-flex items-center justify-center w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl">
                 Analyze Teams
                 <span className="ml-2 group-hover:translate-x-1 transition-transform duration-200">→</span>
-              </a>
+              </ConditionalLink>
             </div>
           </div>
 
@@ -173,11 +226,13 @@ export default function Home() {
               </p>
             </div>
             <div className="p-6">
-              <a href="march-madness" 
-                 className="inline-flex items-center justify-center w-full bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all duration-200 shadow-lg hover:shadow-xl">
+              <ConditionalLink 
+                href="march-madness"
+                disabled={!isApiReady}
+                className="inline-flex items-center justify-center w-full bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all duration-200 shadow-lg hover:shadow-xl">
                 View Alerts
                 <span className="ml-2 group-hover:translate-x-1 transition-transform duration-200">→</span>
-              </a>
+              </ConditionalLink>
             </div>
           </div>
 
@@ -192,11 +247,13 @@ export default function Home() {
               </p>
             </div>
                          <div className="p-6">
-               <a href="march-madness?tab=cinderella" 
-                  className="inline-flex items-center justify-center w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-purple-800 transition-all duration-200 shadow-lg hover:shadow-xl">
+               <ConditionalLink 
+                 href="march-madness?tab=cinderella"
+                 disabled={!isApiReady}
+                 className="inline-flex items-center justify-center w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-purple-800 transition-all duration-200 shadow-lg hover:shadow-xl">
                  Find Cinderellas
                  <span className="ml-2 group-hover:translate-x-1 transition-transform duration-200">→</span>
-               </a>
+               </ConditionalLink>
              </div>
           </div>
         </div>
@@ -210,7 +267,10 @@ export default function Home() {
         <div className="bg-white/60 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-8">
           <h3 className="text-2xl font-bold text-slate-900 mb-6 text-center">Explore Analytics Tools</h3>
           <div className="grid md:grid-cols-3 gap-6">
-            <a href="/team-analysis" className="group p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300">
+            <ConditionalLink 
+              href="/team-analysis"
+              disabled={!isApiReady}
+              className="group p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300">
               <div className="flex items-center mb-3">
                 <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3 group-hover:bg-blue-200 transition-colors duration-200">
                   <span className="text-blue-600 text-lg">📈</span>
@@ -218,9 +278,12 @@ export default function Home() {
                 <div className="font-bold text-blue-900">Team Analysis</div>
               </div>
               <div className="text-sm text-blue-700">Individual predictions, head-to-head comparisons, and conference analytics</div>
-            </a>
+            </ConditionalLink>
             
-                         <a href="march-madness" className="group p-6 bg-gradient-to-br from-red-50 to-pink-50 rounded-xl border border-red-200 hover:border-red-300 hover:shadow-lg transition-all duration-300">
+                         <ConditionalLink 
+               href="march-madness"
+               disabled={!isApiReady}
+               className="group p-6 bg-gradient-to-br from-red-50 to-pink-50 rounded-xl border border-red-200 hover:border-red-300 hover:shadow-lg transition-all duration-300">
                <div className="flex items-center mb-3">
                  <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mr-3 group-hover:bg-red-200 transition-colors duration-200">
                    <span className="text-red-600 text-lg">🎭</span>
@@ -228,9 +291,12 @@ export default function Home() {
                  <div className="font-bold text-red-900">March Madness</div>
                </div>
                <div className="text-sm text-red-700">Upset alerts, Cinderella candidates, and bracket vulnerability assessment</div>
-             </a>
+             </ConditionalLink>
             
-            <a href="/tournament-archive" className="group p-6 bg-gradient-to-br from-slate-50 to-gray-50 rounded-xl border border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all duration-300">
+            <ConditionalLink 
+              href="/tournament-archive"
+              disabled={!isApiReady}
+              className="group p-6 bg-gradient-to-br from-slate-50 to-gray-50 rounded-xl border border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all duration-300">
               <div className="flex items-center mb-3">
                 <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center mr-3 group-hover:bg-slate-200 transition-colors duration-200">
                   <span className="text-slate-600 text-lg">📚</span>
@@ -238,7 +304,7 @@ export default function Home() {
                 <div className="font-bold text-slate-900">Historical Archive</div>
               </div>
               <div className="text-sm text-slate-700">Multi-year analysis, trends, and model validation across tournament cycles</div>
-            </a>
+            </ConditionalLink>
           </div>
         </div>
       </div>

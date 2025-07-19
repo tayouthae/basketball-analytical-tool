@@ -3,12 +3,15 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import { useApiStatus } from '@/lib/api-status-context';
 
 export default function Navigation() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { apiStatus } = useApiStatus();
 
   const isActive = (path: string) => pathname === path;
+  const isApiReady = apiStatus === 'connected';
 
   const navItems = [
     { href: '/', label: 'Dashboard', icon: '📊' },
@@ -52,23 +55,35 @@ export default function Navigation() {
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex space-x-2">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`
+            {navItems.map((item) => {
+              const isDisabled = !isApiReady && item.href !== '/';
+              const linkContent = (
+                <div className={`
                   flex items-center space-x-2 px-4 py-2.5 rounded-xl text-sm font-medium 
                   transition-all duration-200 ease-in-out
                   ${isActive(item.href)
                     ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25 transform scale-105'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50 hover:shadow-md'
+                    : isDisabled
+                    ? 'text-gray-400 bg-gray-100 cursor-not-allowed opacity-60'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50 hover:shadow-md cursor-pointer'
                   }
-                `}
-              >
-                <span className="text-base">{item.icon}</span>
-                <span>{item.label}</span>
-              </Link>
-            ))}
+                `}>
+                  <span className="text-base">{item.icon}</span>
+                  <span>{item.label}</span>
+                  {isDisabled && <span className="text-xs ml-1">🔒</span>}
+                </div>
+              );
+
+              return isDisabled ? (
+                <div key={item.href} title="Available when API is connected">
+                  {linkContent}
+                </div>
+              ) : (
+                <Link key={item.href} href={item.href}>
+                  {linkContent}
+                </Link>
+              );
+            })}
           </div>
 
           {/* Mobile Menu Button */}
@@ -96,24 +111,35 @@ export default function Navigation() {
         {isMobileMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-100">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={closeMobileMenu}
-                  className={`
+              {navItems.map((item) => {
+                const isDisabled = !isApiReady && item.href !== '/';
+                const linkContent = (
+                  <div className={`
                     flex items-center space-x-3 px-3 py-3 rounded-xl text-base font-medium 
                     transition-all duration-200 ease-in-out w-full
                     ${isActive(item.href)
                       ? 'bg-blue-600 text-white shadow-lg'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                      : isDisabled
+                      ? 'text-gray-400 bg-gray-100 cursor-not-allowed opacity-60'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50 cursor-pointer'
                     }
-                  `}
-                >
-                  <span className="text-xl">{item.icon}</span>
-                  <span>{item.label}</span>
-                </Link>
-              ))}
+                  `}>
+                    <span className="text-xl">{item.icon}</span>
+                    <span>{item.label}</span>
+                    {isDisabled && <span className="text-sm ml-1">🔒</span>}
+                  </div>
+                );
+
+                return isDisabled ? (
+                  <div key={item.href} title="Available when API is connected">
+                    {linkContent}
+                  </div>
+                ) : (
+                  <Link key={item.href} href={item.href} onClick={closeMobileMenu}>
+                    {linkContent}
+                  </Link>
+                );
+              })}
             </div>
           </div>
         )}
