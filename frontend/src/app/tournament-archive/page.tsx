@@ -4,8 +4,8 @@ import { useState } from 'react';
 import BubbleTeams from '@/components/BubbleTeams';
 
 export default function TournamentArchivePage() {
-  const [selectedYear, setSelectedYear] = useState(2024);
-  const years = [2024, 2023, 2022, 2021, 2020, 2019];
+  const [selectedYear, setSelectedYear] = useState(2025);
+  const years = [2025, 2024, 2023, 2022, 2021, 2020, 2019];
 
   return (
     <div className="p-6">
@@ -15,7 +15,7 @@ export default function TournamentArchivePage() {
             Tournament Archive
           </h1>
           <p className="text-gray-600">
-            Historical tournament data from 2019-2024
+            Historical tournament data from 2019-2025
           </p>
         </div>
 

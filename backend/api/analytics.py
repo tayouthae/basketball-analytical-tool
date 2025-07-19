@@ -24,7 +24,7 @@ class ConferenceStats(BaseModel):
 
 
 @router.get("/compare/{team1}/{team2}")
-async def compare_teams(team1: str, team2: str, year: int = 2024):
+async def compare_teams(team1: str, team2: str, year: int = 2025):
     """Compare two teams head-to-head"""
     try:
         data = load_data()
@@ -74,7 +74,7 @@ async def compare_teams(team1: str, team2: str, year: int = 2024):
 
 
 @router.get("/conferences", response_model=List[ConferenceStats])
-async def get_conference_analysis(year: int = 2024):
+async def get_conference_analysis(year: int = 2025):
     """Analyze conference strength"""
     try:
         data = load_data()
@@ -113,7 +113,7 @@ async def get_conference_analysis(year: int = 2024):
 
 
 @router.get("/team-profile/{team_name}")
-async def get_team_profile(team_name: str, year: int = 2024):
+async def get_team_profile(team_name: str, year: int = 2025):
     """Get comprehensive team profile"""
     try:
         data = load_data()

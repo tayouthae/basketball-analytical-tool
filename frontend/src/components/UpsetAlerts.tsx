@@ -13,7 +13,7 @@ export default function UpsetAlerts() {
   const [cinderellas, setCinderellas] = useState<CinderellaCandidate[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [year, setYear] = useState(2024);
+  const [year, setYear] = useState(2025);
   
   // Check URL params to determine initial tab
   const initialTab = searchParams.get('tab') === 'cinderella' ? 'cinderella' : 'upsets';
@@ -84,6 +84,7 @@ export default function UpsetAlerts() {
             onChange={(e) => setYear(Number(e.target.value))}
             className="px-3 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
           >
+            <option value={2025}>2025</option>
             <option value={2024}>2024</option>
             <option value={2023}>2023</option>
             <option value={2022}>2022</option>

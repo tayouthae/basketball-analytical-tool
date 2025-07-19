@@ -8,7 +8,7 @@ import TeamSelector from './TeamSelector';
 
 export default function TournamentSearch() {
   const [teamName, setTeamName] = useState('');
-  const [year, setYear] = useState(2024);
+  const [year, setYear] = useState(2025);
   const [prediction, setPrediction] = useState<TournamentPrediction | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -64,6 +64,7 @@ export default function TournamentSearch() {
             onChange={(e) => setYear(Number(e.target.value))}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
           >
+            <option value={2025}>2025</option>
             <option value={2024}>2024</option>
             <option value={2023}>2023</option>
             <option value={2022}>2022</option>

@@ -15,7 +15,7 @@ export default function TopTeams({ year: propYear, limit = 25, showYearSelector 
   const [topTeams, setTopTeams] = useState<TopTeam[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [internalYear, setInternalYear] = useState(2024);
+  const [internalYear, setInternalYear] = useState(2025);
   
   const year = propYear || internalYear;
 
@@ -67,11 +67,12 @@ export default function TopTeams({ year: propYear, limit = 25, showYearSelector 
               onChange={(e) => setInternalYear(Number(e.target.value))}
               className="px-3 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
             >
-              <option value={2024}>2024</option>
-              <option value={2023}>2023</option>
-              <option value={2022}>2022</option>
-              <option value={2021}>2021</option>
-              <option value={2019}>2019</option>
+                          <option value={2025}>2025</option>
+            <option value={2024}>2024</option>
+            <option value={2023}>2023</option>
+            <option value={2022}>2022</option>
+            <option value={2021}>2021</option>
+            <option value={2019}>2019</option>
             </select>
           </div>
         )}

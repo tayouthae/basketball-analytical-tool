@@ -6,7 +6,7 @@ import TeamProfileComponent from '@/components/TeamProfile';
 
 export default function IndividualTeamAnalysisPage() {
   const [selectedTeam, setSelectedTeam] = useState('');
-  const [year, setYear] = useState(2024);
+  const [year, setYear] = useState(2025);
 
   return (
     <div className="p-6">
@@ -42,6 +42,7 @@ export default function IndividualTeamAnalysisPage() {
                 onChange={(e) => setYear(Number(e.target.value))}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               >
+                <option value={2025}>2025</option>
                 <option value={2024}>2024</option>
                 <option value={2023}>2023</option>
                 <option value={2022}>2022</option>

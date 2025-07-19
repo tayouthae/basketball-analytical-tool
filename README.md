@@ -108,7 +108,7 @@ npm run dev
 ### Data Collection
 
 - **Source**: BartTorvik.com (comprehensive college basketball statistics)
-- **Coverage**: 2,136 team records across 2019-2024 seasons
+- **Coverage**: 2,136+ team records across 2019-2025 seasons
 - **Scope**: 300+ elite players, tournament results, advanced metrics
 
 ### Feature Engineering
@@ -120,7 +120,7 @@ npm run dev
 
 ### Model Development
 
-- **Time-based validation**: Train on 2019-2022, test on 2023-2024
+- **Time-based validation**: Train on 2019-2022, test on 2023-2025
 - **Ensemble approach**: Random Forest + Gradient Boosting
 - **Feature importance analysis**: Efficiency metrics dominate predictions
 - **Business validation**: Model predictions align with expert analysis

@@ -9,7 +9,7 @@ interface TeamProfileProps {
   year?: number;
 }
 
-export default function TeamProfileComponent({ teamName, year = 2024 }: TeamProfileProps) {
+export default function TeamProfileComponent({ teamName, year = 2025 }: TeamProfileProps) {
   const [profile, setProfile] = useState<TeamProfile | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');

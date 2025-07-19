@@ -133,7 +133,7 @@ export default function Home() {
                 <div className="pt-4 border-t border-slate-200">
                   <div className="flex items-center justify-between">
                     <span className="text-slate-600">Training Dataset</span>
-                    <span className="font-bold text-slate-900">350+ Teams • 2019-2024</span>
+                    <span className="font-bold text-slate-900">350+ Teams • 2019-2025</span>
                   </div>
                 </div>
               </div>

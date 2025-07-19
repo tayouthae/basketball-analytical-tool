@@ -21,7 +21,7 @@ interface TeamComparison {
 export default function CompactTeamComparison() {
   const [team1, setTeam1] = useState('');
   const [team2, setTeam2] = useState('');
-  const [year, setYear] = useState(2024);
+  const [year, setYear] = useState(2025);
   const [comparison, setComparison] = useState<TeamComparison | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -86,6 +86,7 @@ export default function CompactTeamComparison() {
             onChange={(e) => setYear(Number(e.target.value))}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
           >
+            <option value={2025}>2025</option>
             <option value={2024}>2024</option>
             <option value={2023}>2023</option>
             <option value={2022}>2022</option>

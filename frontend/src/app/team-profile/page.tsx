@@ -8,7 +8,7 @@ import Link from 'next/link';
 function TeamProfileContent() {
   const searchParams = useSearchParams();
   const teamName = searchParams.get('team');
-  const year = searchParams.get('year') ? parseInt(searchParams.get('year')!) : 2024;
+  const year = searchParams.get('year') ? parseInt(searchParams.get('year')!) : 2025;
 
   // Scroll to top when component mounts or team changes
   useEffect(() => {
