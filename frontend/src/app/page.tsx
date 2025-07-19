@@ -172,7 +172,7 @@ export default function Home() {
               </p>
             </div>
             <div className="p-6">
-              <a href="/tournament-analysis" 
+              <a href="march-madness" 
                  className="inline-flex items-center justify-center w-full bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all duration-200 shadow-lg hover:shadow-xl">
                 View Alerts
                 <span className="ml-2 group-hover:translate-x-1 transition-transform duration-200">→</span>
@@ -191,7 +191,7 @@ export default function Home() {
               </p>
             </div>
                          <div className="p-6">
-               <a href="/tournament-analysis?tab=cinderella" 
+               <a href="march-madness?tab=cinderella" 
                   className="inline-flex items-center justify-center w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white px-6 py-3 rounded-xl font-semibold hover:from-purple-700 hover:to-purple-800 transition-all duration-200 shadow-lg hover:shadow-xl">
                  Find Cinderellas
                  <span className="ml-2 group-hover:translate-x-1 transition-transform duration-200">→</span>
@@ -214,12 +214,12 @@ export default function Home() {
               <div className="text-sm text-blue-700">Individual predictions, head-to-head comparisons, and conference analytics</div>
             </a>
             
-                         <a href="/tournament-analysis" className="group p-6 bg-gradient-to-br from-red-50 to-pink-50 rounded-xl border border-red-200 hover:border-red-300 hover:shadow-lg transition-all duration-300">
+                         <a href="march-madness" className="group p-6 bg-gradient-to-br from-red-50 to-pink-50 rounded-xl border border-red-200 hover:border-red-300 hover:shadow-lg transition-all duration-300">
                <div className="flex items-center mb-3">
                  <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mr-3 group-hover:bg-red-200 transition-colors duration-200">
                    <span className="text-red-600 text-lg">🎭</span>
                  </div>
-                 <div className="font-bold text-red-900">Tournament Analysis</div>
+                 <div className="font-bold text-red-900">March Madness</div>
                </div>
                <div className="text-sm text-red-700">Upset alerts, Cinderella candidates, and bracket vulnerability assessment</div>
              </a>

@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Basketball Analytics | Illinois Men's Basketball",
-  description: "Advanced basketball analytics, Tournament Analysis predictions, team analysis, and tournament insights for Illinois Men's Basketball",
-  keywords: ["basketball", "analytics", "Tournament Analysis", "Illinois", "tournament", "predictions"],
+  description: "Advanced basketball analytics, March Madness predictions, team analysis, and tournament insights for Illinois Men's Basketball",
+  keywords: ["basketball", "analytics", "March Madness", "Illinois", "tournament", "predictions"],
   authors: [{ name: "Basketball Analytics Team" }],
   icons: {
     icon: [
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Basketball Analytics | Illinois Men's Basketball",
-    description: "Advanced basketball analytics and Tournament Analysis predictions",
+    description: "Advanced basketball analytics and March Madness predictions",
     type: "website"
   }
 };

@@ -6,7 +6,7 @@ from api.upsets import router as upsets_router
 
 app = FastAPI(
     title="Basketball Analytics API",
-    description="Tournament Prediction & Team Analytics System",
+    description="March Madness Prediction & Team Analytics System",
     version="1.0.0"
 )
 
