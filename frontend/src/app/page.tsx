@@ -179,7 +179,7 @@ export default function Home() {
                 </div>
                 <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-200">
                   <span className="text-slate-700 font-medium">Deep Run Prediction</span>
-                  <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">Random Forest</span>
+                  <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">Gradient Boosting</span>
                 </div>
                 <div className="pt-4 border-t border-slate-200">
                   <div className="flex items-center justify-between">
